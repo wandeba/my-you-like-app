@@ -1,4 +1,4 @@
-name: Build Electron App
+name: Build and Release Electron App
 
 on:
   push:
@@ -25,10 +25,22 @@ jobs:
       # Step 4 — Build Electron app
       - name: Build app
         run: npm run dist
+        env:
+          GH_TOKEN: ${{ secrets.GH_TOKEN }}
+          CSC_LINK: ""  # skip code-signing
 
-      # Step 5 — Upload the built .exe as artifact
-      - name: Upload Electron Build
-        uses: actions/upload-artifact@v4
+      # Step 5 — Create or update a single "latest" Release
+      - name: Create/Update Latest Release
+        uses: softprops/action-gh-release@v1
         with:
-          name: OpenArt-Windows
-          path: dist/*.exe
+          tag_name: latest
+        env:
+          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
+
+      # Step 6 — Upload .exe to the "latest" Release
+      - name: Upload Release Asset
+        uses: softprops/action-gh-release@v1
+        with:
+          files: dist/*.exe
+        env:
+          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
