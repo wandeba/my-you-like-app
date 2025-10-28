@@ -22,14 +22,14 @@ jobs:
       - name: Install dependencies
         run: npm install
 
-      # Step 4 — Build Electron app without code-signing
+      # Step 4 — Build Electron app (no signing)
       - name: Build app
         run: npm run dist
         env:
           GH_TOKEN: ${{ secrets.GH_TOKEN }}
-          CSC_LINK: ""   # Skip Windows code-signing
+          CSC_LINK: ""
 
-      # Step 5 — Create or update a single "latest" Release
+      # Step 5 — Create/Update a single "latest" Release
       - name: Create/Update Latest Release
         uses: softprops/action-gh-release@v1
         with:
@@ -37,7 +37,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
 
-      # Step 6 — Upload .exe to the "latest" Release
+      # Step 6 — Upload the built .exe to the "latest" Release
       - name: Upload Release Asset
         uses: softprops/action-gh-release@v1
         with:
