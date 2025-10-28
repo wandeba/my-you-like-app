@@ -9,7 +9,7 @@ jobs:
     runs-on: windows-latest
 
     steps:
-      # Step 1 — Checkout repo
+      # Step 1 — Checkout repository
       - uses: actions/checkout@v4
 
       # Step 2 — Setup Node.js
@@ -22,12 +22,12 @@ jobs:
       - name: Install dependencies
         run: npm install
 
-      # Step 4 — Build Electron app
+      # Step 4 — Build Electron app without code-signing
       - name: Build app
         run: npm run dist
         env:
           GH_TOKEN: ${{ secrets.GH_TOKEN }}
-          CSC_LINK: ""  # skip code-signing
+          CSC_LINK: ""   # Skip Windows code-signing
 
       # Step 5 — Create or update a single "latest" Release
       - name: Create/Update Latest Release
