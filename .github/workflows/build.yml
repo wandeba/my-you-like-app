@@ -9,27 +9,23 @@ jobs:
     runs-on: windows-latest
 
     steps:
-      # Step 1 — Checkout repository
       - uses: actions/checkout@v4
 
-      # Step 2 — Setup Node.js
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: 20
 
-      # Step 3 — Install dependencies
       - name: Install dependencies
         run: npm install
 
-      # Step 4 — Build Electron app (no signing)
       - name: Build app
         run: npm run dist
         env:
           GH_TOKEN: ${{ secrets.GH_TOKEN }}
-          CSC_LINK: ""
+          CSC_LINK: ""        # Disable cross-platform signing
+          WIN_CSC_LINK: ""    # Disable Windows-specific signing
 
-      # Step 5 — Create/Update a single "latest" Release
       - name: Create/Update Latest Release
         uses: softprops/action-gh-release@v1
         with:
@@ -37,7 +33,6 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
 
-      # Step 6 — Upload the built .exe to the "latest" Release
       - name: Upload Release Asset
         uses: softprops/action-gh-release@v1
         with:
