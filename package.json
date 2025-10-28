@@ -3,6 +3,8 @@
   "version": "1.0.0",
   "description": "Electron app for OpenArt i2v",
   "main": "main.js",
+  "author": "Wand Iskhaq",
+  "license": "MIT",
   "scripts": {
     "start": "electron .",
     "dist": "electron-builder"
@@ -14,7 +16,10 @@
   "build": {
     "appId": "com.wandeba.openart",
     "productName": "OpenArt Wrapper",
-   
+    "win": {
+      "target": "nsis",
+      "icon": "icon.ico",
+      "sign": false
     }
   }
 }
