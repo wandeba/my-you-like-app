@@ -1,0 +1,22 @@
+{
+  "name": "openart-wrapper",
+  "version": "1.0.0",
+  "description": "Electron app for OpenArt i2v",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "dist": "electron-builder"
+  },
+  "devDependencies": {
+    "electron": "^33.0.0",
+    "electron-builder": "^24.13.3"
+  },
+  "build": {
+    "appId": "com.wandeba.openart",
+    "productName": "OpenArt Wrapper",
+    "win": {
+      "target": "nsis",
+      "icon": "icon.ico"
+    }
+  }
+}
