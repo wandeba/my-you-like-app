@@ -13,13 +13,17 @@
     "electron": "^33.0.0",
     "electron-builder": "^24.13.3"
   },
-  "build": {
-    "appId": "com.wandeba.openart",
-    "productName": "OpenArt Wrapper",
-    "win": {
-      "target": "nsis",
-      "icon": "icon.ico",
-      "sign": false
-    }
+
+
+"build": {
+  "appId": "com.wandeba.openart",
+  "productName": "OpenArt Wrapper",
+  "forceCodeSigning": false,
+  "win": {
+    "target": "nsis",
+    "icon": "icon.ico",
+    "sign": false
   }
+}
+
 }
