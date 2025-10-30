@@ -1,15 +1,17 @@
-name: Build and Release Electron App
+name: Build OpenArt Wrapper
 
 on:
   push:
     branches: [ main ]
+  workflow_dispatch:
 
 jobs:
   build:
     runs-on: windows-latest
 
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout repository
+        uses: actions/checkout@v4
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
@@ -19,23 +21,16 @@ jobs:
       - name: Install dependencies
         run: npm install
 
-      - name: Build app
+      - name: Build Electron app (no signing)
+        env:
+          CSC_IDENTITY_AUTO_DISCOVERY: false
+          CSC_FOR_WINDOWS: false
+          WIN_CSC_LINK: ""
+          CI: false
         run: npm run dist
-        env:
-          GH_TOKEN: ${{ secrets.GH_TOKEN }}
-          CSC_LINK: ""        # Disable cross-platform signing
-          WIN_CSC_LINK: ""    # Disable Windows-specific signing
 
-      - name: Create/Update Latest Release
-        uses: softprops/action-gh-release@v1
+      - name: Upload built artifacts
+        uses: actions/upload-artifact@v4
         with:
-          tag_name: latest
-        env:
-          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
-
-      - name: Upload Release Asset
-        uses: softprops/action-gh-release@v1
-        with:
-          files: dist/*.exe
-        env:
-          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
+          name: openart-wrapper
+          path: dist/
